@@ -1,5 +1,5 @@
+use cli_animate::{Color, ProgressBar, Style};
 use std::sync::{Arc, Mutex};
-use cli_animate::ProgressBar;
 use std::{thread, time};
 
 fn main() {
@@ -22,11 +22,8 @@ fn main() {
     });
 
     // Initialize a new ProgressBar the initial number of steps and the goal.
-    let progress_bar = ProgressBar::new(
-        0,
-        100,
-        move || *progress_value.lock().unwrap(),
-    );
+    let style = Style::default().with_color(Color::Green);
+    let progress_bar = ProgressBar::new(0, 100, move || *progress_value.lock().unwrap(), style);
 
     let mut writer = std::io::stdout();
 
