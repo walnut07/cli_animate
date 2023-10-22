@@ -1,9 +1,23 @@
 [package]
 name = "cli-animate"
-author = "Kurumi Muto"
+authors = ["Kurumi Muto"]
+description = "Enrich your Rust CLIs with stunning, easy-to-implement animations."
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "cli_animate"
+path = "src/lib.rs"
+
+[[bin]]
+name = "cli_animate"
+path = "example/main.rs"
+
+[[example]]
+name = "cli_animate"
+path = "example/main.rs"
+crate-type = ["staticlib"]
 
 [dependencies]
