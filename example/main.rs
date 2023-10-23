@@ -1,11 +1,13 @@
 use cli_animate::interactive_menu::InteractiveMenu;
-use cli_animate::progress::{Color, ProgressBar, Style, StyleBuilder};
+use cli_animate::loading_indicator::LoadingIndicator;
+use cli_animate::progress::{ProgressBar, StyleBuilder};
+use cli_animate::utils::Color;
 use std::sync::{Arc, Mutex};
 use std::{thread, time};
 
 fn main() {
     // --------------------------------------------- //
-    // ---------- Example 1: Progress Bar ---------- //
+    // ---------- Example: Progress Bar ------------ //
     // --------------------------------------------- //
 
     let progress_value = Arc::new(Mutex::new(0));
@@ -42,7 +44,7 @@ fn main() {
     do_some_work.join().unwrap();
 
     // ------------------------------------------------- //
-    // ---------- Example 2: Interactive Menu ---------- //
+    // ---------- Example: Interactive Menu ------------ //
     // ------------------------------------------------- //
 
     let options = vec![
@@ -55,4 +57,21 @@ fn main() {
     let selected_index = menu.run().unwrap();
 
     println!("You selected: {}", options[selected_index]);
+
+    // ------------------------------------------------- //
+    // ---------- Example: Loading Indicator ----------- //
+    // ------------------------------------------------- //
+
+    let loading_indicator = LoadingIndicator::new(Color::Red);
+    loading_indicator.start();
+
+    // Do some work while the loading indicator is running.
+    let mut num = 0;
+    while num <= 100 {
+        thread::sleep(time::Duration::from_millis(20));
+        num += 1;
+    }
+
+    // Stop the loading indicator.
+    loading_indicator.stop();
 }
