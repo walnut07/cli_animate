@@ -1,4 +1,4 @@
-use cli_animate::{Color, ProgressBar, Style};
+use cli_animate::progress::{Color, ProgressBar, Style};
 use std::sync::{Arc, Mutex};
 use std::{thread, time};
 
