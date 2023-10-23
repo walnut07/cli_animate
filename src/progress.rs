@@ -1,3 +1,4 @@
+use crate::utils::Color;
 use std::default::Default;
 use std::io::{Stdout, Write};
 use std::sync::{Arc, Mutex};
@@ -29,19 +30,6 @@ pub struct Style {
 
     /// The color of the progress bar. It will be printed as a 24 bit color.
     pub color: Color,
-}
-
-#[derive(Default)]
-pub enum Color {
-    #[default]
-    White,
-    Red,
-    Blue,
-    Yellow,
-    Green,
-    Cyan,
-    Magenta,
-    Black,
 }
 
 impl Default for Style {
@@ -89,21 +77,6 @@ impl StyleBuilder {
             bar_character: self.bar_character.unwrap_or('='),
             bar_length: self.bar_length.unwrap_or(50),
             color: self.color.unwrap_or(Color::White),
-        }
-    }
-}
-
-impl Color {
-    pub fn to_ansi_code(&self) -> &'static str {
-        match self {
-            Color::White => "\x1b[37m",
-            Color::Red => "\x1b[31m",
-            Color::Blue => "\x1b[34m",
-            Color::Yellow => "\x1b[33m",
-            Color::Green => "\x1b[32m",
-            Color::Cyan => "\x1b[36m",
-            Color::Magenta => "\x1b[35m",
-            Color::Black => "\x1b[30m",
         }
     }
 }
