@@ -20,7 +20,6 @@ pub struct ProgressBar {
 }
 
 /// A `Style` defines the appearance of a progress bar.
-#[derive(Default)]
 pub struct Style {
     /// The character used to display the progress bar, such as `=`, `#`, `*`, etc.
     pub bar_character: char,
@@ -30,15 +29,6 @@ pub struct Style {
 
     /// The color of the progress bar. It will be printed as a 24 bit color.
     pub color: Color,
-}
-
-impl Style {
-    pub fn with_color(&self, color: Color) -> Self {
-        Style {
-            color,
-            ..Default::default()
-        }
-    }
 }
 
 #[derive(Default)]
@@ -52,6 +42,55 @@ pub enum Color {
     Cyan,
     Magenta,
     Black,
+}
+
+impl Default for Style {
+    fn default() -> Self {
+        Style {
+            bar_character: '=',
+            bar_length: 50,
+            color: Color::White,
+        }
+    }
+}
+
+pub struct StyleBuilder {
+    bar_character: Option<char>,
+    bar_length: Option<u64>,
+    color: Option<Color>,
+}
+
+impl StyleBuilder {
+    pub fn new() -> StyleBuilder {
+        StyleBuilder {
+            bar_character: None,
+            bar_length: None,
+            color: None,
+        }
+    }
+
+    pub fn bar_character(mut self, character: char) -> StyleBuilder {
+        self.bar_character = Some(character);
+        self
+    }
+
+    pub fn bar_length(mut self, length: u64) -> StyleBuilder {
+        self.bar_length = Some(length);
+        self
+    }
+
+    pub fn color(mut self, color: Color) -> StyleBuilder {
+        self.color = Some(color);
+        self
+    }
+
+    pub fn build(self) -> Style {
+        Style {
+            bar_character: self.bar_character.unwrap_or('='),
+            bar_length: self.bar_length.unwrap_or(50),
+            color: self.color.unwrap_or(Color::White),
+        }
+    }
 }
 
 impl Color {
@@ -102,9 +141,9 @@ impl ProgressBar {
         let percentage =
             ((current_value - self.start) as f64 / (self.goal - self.start) as f64) * 100.0;
 
-        let bar_length = 50;
+        let bar_length = self.style.bar_length as usize;
         let completed = ((percentage / 100.0) * bar_length as f64) as usize;
-        let bar = "=".repeat(completed) + &" ".repeat(bar_length - completed);
+        let bar = self.style.bar_character.to_string().repeat(completed) + &" ".repeat(bar_length - completed);
 
         let color_code = self.style.color.to_ansi_code();
 
@@ -122,7 +161,7 @@ mod tests {
     #[test]
     fn test_update_progress_success() {
         let progress_bar =
-            ProgressBar::new(0, 100, || 0, Style::default().with_color(Color::White));
+            ProgressBar::new(0, 100, || 0, Style::default());
         let mut writer = Cursor::new(Vec::new());
 
         progress_bar.update_display(&mut writer, 50);
