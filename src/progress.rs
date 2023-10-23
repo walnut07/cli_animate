@@ -143,7 +143,8 @@ impl ProgressBar {
 
         let bar_length = self.style.bar_length as usize;
         let completed = ((percentage / 100.0) * bar_length as f64) as usize;
-        let bar = self.style.bar_character.to_string().repeat(completed) + &" ".repeat(bar_length - completed);
+        let bar = self.style.bar_character.to_string().repeat(completed)
+            + &" ".repeat(bar_length - completed);
 
         let color_code = self.style.color.to_ansi_code();
 
@@ -160,8 +161,7 @@ mod tests {
 
     #[test]
     fn test_update_progress_success() {
-        let progress_bar =
-            ProgressBar::new(0, 100, || 0, Style::default());
+        let progress_bar = ProgressBar::new(0, 100, || 0, Style::default());
         let mut writer = Cursor::new(Vec::new());
 
         progress_bar.update_display(&mut writer, 50);

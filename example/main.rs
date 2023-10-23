@@ -1,8 +1,13 @@
-use cli_animate::progress::{Color, ProgressBar, Style};
+use cli_animate::interactive_menu::InteractiveMenu;
+use cli_animate::progress::{Color, ProgressBar, Style, StyleBuilder};
 use std::sync::{Arc, Mutex};
 use std::{thread, time};
 
 fn main() {
+    // --------------------------------------------- //
+    // ---------- Example 1: Progress Bar ---------- //
+    // --------------------------------------------- //
+
     let progress_value = Arc::new(Mutex::new(0));
 
     // Create a clone of the progress_value for the other thread.
@@ -21,8 +26,11 @@ fn main() {
         }
     });
 
-    // Initialize a new ProgressBar the initial number of steps and the goal.
-    let style = Style::default().with_color(Color::Green);
+    // Initialize a progress bar.
+    let style = StyleBuilder::new() // `Style` provides builder pattern.
+        .color(Color::Green)
+        .bar_length(60)
+        .build();
     let progress_bar = ProgressBar::new(0, 100, move || *progress_value.lock().unwrap(), style);
 
     let mut writer = std::io::stdout();
@@ -32,4 +40,19 @@ fn main() {
 
     // Wait for the worker thread to finish.
     do_some_work.join().unwrap();
+
+    // ------------------------------------------------- //
+    // ---------- Example 2: Interactive Menu ---------- //
+    // ------------------------------------------------- //
+
+    let options = vec![
+        "Tokyo".to_string(),
+        "Saitama".to_string(),
+        "Kanagawa".to_string(),
+    ];
+
+    let mut menu = InteractiveMenu::new(options.clone());
+    let selected_index = menu.run().unwrap();
+
+    println!("You selected: {}", options[selected_index]);
 }
