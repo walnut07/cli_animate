@@ -5,11 +5,11 @@ It offers a straightforward way to integrate visual elements such as progress ba
 
 ## Features
 
-**Progress Bars**: Show task progress with customizable, animated progress bars.
-**Interactive Menus**: Navigate through options with intuitive, keyboard-navigable menus.
-**Loading Indicators**: Display a loading indicator to show that your application is working.
-**Styles Customizable**: Customize the look of your animations with colors and characters.
-**And More**: The library is designed for extensibility and includes a variety of other tools to enrich your CLI applications.
+**Progress Bars**: Show task progress with customizable, animated progress bars. \
+**Interactive Menus**: Navigate through options with intuitive, keyboard-navigable menus. \
+**Loading Indicators**: Display a loading indicator to show that your application is working. \
+**Styles Customizable**: Customize the look of your animations with colors and characters. \
+**And More**: The library is designed for extensibility and includes a variety of other tools to enrich your CLI applications. \
 
 ## Installation
 
