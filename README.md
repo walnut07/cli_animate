@@ -24,6 +24,8 @@ cli-animate = "0.1.0"
 
 **Interactive Menu**:
 
+![interactive_menu.gif](example/interactive_menu.gif)
+
 ```rust
 use cli_animate::InteractiveMenu;
 
@@ -35,22 +37,17 @@ fn main() {
     ];
 
     let mut menu = InteractiveMenu::new(options.clone());
-    // User is seeing something like this in their terminal:
-    // --------------------------------------------------------------------------- //
-        // 'w' for up, 's' for down, then press Enter to select. Double Enter to submit.
-        //
-        // > Tokyo
-        //   Saitama
-        //   Kanagawa
-        // When the user presses Enter twice, the selected option is returned.
-    // --------------------------------------------------------------------------- //
-    let selected_index = menu.run().unwrap(); // The index of the user's selected option.
+
+    // Run it!
+    let selected_index = menu.run().unwrap(); // Returns the index of the user's selected option.
 
     println!("You selected: {}", options[selected_index]); // "You selected: Tokyo"
 }
 ```
 
 **Progress Bar**:
+
+![progress_bar.gif](example/progress_bar.gif)
 
 ```rust
 use cli_animate::{ProgressBar, StyleBuilder, Color};
@@ -83,10 +80,8 @@ fn main() {
 
     let mut writer = std::io::stdout();
 
+    // Start it!
     progress_bar.start(&mut writer);
-
-    // User is seeing something like this in their terminal:      
-    //[==========          ]]
     
     // Wait for the worker thread to finish.
     do_some_work.join().unwrap();
