@@ -1,6 +1,6 @@
-use cli_animate::interactive_menu::InteractiveMenu;
+use cli_animate::interactive_menu::{InteractiveMenu, StyleBuilder as InteractiveMenuStyleBuilder};
 use cli_animate::loading_indicator::LoadingIndicator;
-use cli_animate::progress::{ProgressBar, StyleBuilder};
+use cli_animate::progress::{ProgressBar, StyleBuilder as ProgressBarStyleBuilder};
 use cli_animate::utils::Color;
 use std::sync::{Arc, Mutex};
 use std::{thread, time};
@@ -29,7 +29,7 @@ fn main() {
     });
 
     // Initialize a progress bar.
-    let style = StyleBuilder::new() // `Style` provides builder pattern.
+    let style = ProgressBarStyleBuilder::new() // `Style` provides builder pattern.
         .color(Color::Green)
         .bar_length(60)
         .build();
@@ -53,7 +53,16 @@ fn main() {
         "Kanagawa".to_string(),
     ];
 
-    let mut menu = InteractiveMenu::new(options.clone());
+    // Initialize an interactive menu.
+    let mut menu = InteractiveMenu::new(
+        options.clone(),
+        InteractiveMenuStyleBuilder::new() // `Style` provides builder pattern.
+            .color(Color::Blue)
+            .selected_prefix('*')
+            .build(),
+    );
+
+    // Run the interactive menu.
     let selected_index = menu.run().unwrap();
 
     println!("You selected: {}", options[selected_index]);

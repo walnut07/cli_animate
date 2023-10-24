@@ -53,7 +53,7 @@ impl LoadingIndicator {
                 thread::sleep(Duration::from_millis(100));
             }
 
-            print!("\r ");
+            println!();
             io::stdout().flush().unwrap();
         });
     }

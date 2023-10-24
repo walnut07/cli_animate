@@ -102,10 +102,13 @@ impl ProgressBar {
     pub fn start(&self, writer: &mut Stdout) {
         let mut current_value = self.start;
 
+        println!("\x1B[?25l"); // x1B[?25l hides cursor.
         while current_value < self.goal {
             current_value = (self.get_progress.lock().unwrap())();
             self.update_display(writer, current_value);
         }
+
+        write!(writer, "\n\x1b[0m").unwrap(); // x1B[0m resets color.
     }
 
     // NOTE: This function is separated from `start()` just to make it testable.
